@@ -15,10 +15,6 @@ namespace Simplayer5 {
 		private void RefreshShortcut(List<string> list) {
 			ListShortEng = list.Select(x => Regex.Replace(x.ToLower(), @"[^0-9a-zA-Z가-힣]+", "?")).ToList();
 			ListShortKor = list.Select(x => Regex.Replace(KoreanDivide(x.ToLower()), @"[^0-9a-zA-Z]+", "?")).ToList();
-
-			foreach (string str in ListShortEng) {
-				Console.WriteLine(str);
-			}
 		}
 
 		private string KoreanDivide(string origStr) {

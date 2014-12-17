@@ -12,11 +12,12 @@ using System.Windows.Media;
 
 namespace Simplayer5 {
 	public partial class MainWindow : Window {
-		enum ListStatus { All, Artist, Album, Folder }
+		enum ListStatus { All, Artist, Album, Folder, Search }
 
 		SongButton[] SongBtn = new SongButton[33];
 		FolderButton[] FoldBtn = new FolderButton[33];
 		DetailButton[] DtilBtn = new DetailButton[33];
+		SearchButton[] SearBtn = new SearchButton[33];
 		int inv = 7;
 		private void InitListControl() {
 			for (int i = -inv; i <= 9 + inv; i++) {
@@ -32,11 +33,15 @@ namespace Simplayer5 {
 					Height = 50,
 					Margin = new Thickness(0, i * 50, 0, 0),
 				};
-				 
+				SearBtn[i + inv] = new SearchButton() {
+					Height = 50,
+					Margin = new Thickness(0, i * 50, 0, 0),
+				};
 
 				SongBtn[i + inv].Response += SongButton_Response;
 				FoldBtn[i + inv].Response += FolderButton_Response;
 				DtilBtn[i + inv].Response += DetailButton_Response;
+				SearBtn[i + inv].Response += MainWindow_Response;
 			}
 		}
 
@@ -389,6 +394,10 @@ namespace Simplayer5 {
 					newStart = Math.Min(ListFolder.Count - 10, newStart);
 					newStart = Math.Max(0, newStart);
 					return newStart;
+				case ListStatus.Search:
+					newStart = Math.Min(ListSearch.Count - 8, newStart);
+					newStart = Math.Max(0, newStart);
+					return newStart;
 				default:
 					return 0;
 			}
@@ -410,6 +419,10 @@ namespace Simplayer5 {
 					return newStart;
 				case ListStatus.Folder:
 					newStart = Math.Min(ListFolder.Count - 1, newStart);
+					newStart = Math.Max(0, newStart);
+					return newStart;
+				case ListStatus.Search:
+					newStart = Math.Min(ListSearch.Count - 1, newStart);
 					newStart = Math.Max(0, newStart);
 					return newStart;
 				default:
@@ -557,6 +570,24 @@ namespace Simplayer5 {
 			}
 		}
 
+		private void ScrollToContent(int id, string caption, string detail) {
+			int nowStart = 0;
+
+			switch (ListMode) {
+				case ListStatus.All:
+					nowStart = ListSong.FindIndex(x => x == id);
+					break;
+				case ListStatus.Artist:
+					nowStart = ListArtist.FindIndex(x => x.Caption == caption);
+					break;
+				case ListStatus.Album:
+					nowStart = ListAlbum.FindIndex(x => x.Caption == caption && x.Detail == detail);
+					break;
+			}
+
+			ScrollToIndex(true, 0, nowStart);
+		}
+
 		private void ScrollToIndex(bool scrollChange, int add, int start = -1) {
 			int nowStart = 0;
 			switch (ListMode) {
@@ -575,6 +606,10 @@ namespace Simplayer5 {
 				case ListStatus.Folder:
 					nowStart = start < 0 ? FolderStart : start;
 					ScrollFolder(nowStart + add, scrollChange);
+					break;
+				case ListStatus.Search:
+					nowStart = start < 0 ? SearchStart : start;
+					ScrollSearch(nowStart + add, scrollChange);
 					break;
 				default:
 					return;
@@ -627,7 +662,7 @@ namespace Simplayer5 {
 		}
 
 		private void Albumart_MouseDown(object sender, MouseButtonEventArgs e) {
-			if (Data.PosSong.ContainsKey(NowPlaying.ID) && ListMode == ListStatus.All) {
+			if (Data.PosSong.ContainsKey(NowPlaying.ID) && TabMode == ViewStatus.All) {
 				RefreshContent(Data.PosSong[NowPlaying.ID], 1);
 			}
 		}

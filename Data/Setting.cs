@@ -10,8 +10,8 @@ namespace Simplayer5 {
 	class Setting {
 		// Property
 
-		public static string ListFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Simplayer5\Simplayer_T.ini";
-		public static string SettingFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Simplayer5\SimplayerPref_T.ini";
+		public static string ListFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Simplayer5\Simplayer.ini";
+		public static string SettingFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Simplayer5\SimplayerPref.ini";
 		public static string ffFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Simplayer5";
 
 		public static bool TopMost = false, MinToTray = false, Hotkey = false, LyrRight = true, Notification = false, SortAuto = false, PlayDoubleClick = true;
@@ -81,6 +81,7 @@ namespace Simplayer5 {
 		}
 
 		public static void SaveSetting() {
+
 			JsonObjectCollection saveCollection = new JsonObjectCollection();
 
 			saveCollection.Add(new JsonStringValue("TopMost", Setting.TopMost.ToString()));

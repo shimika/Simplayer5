@@ -175,12 +175,18 @@ namespace Simplayer5 {
 				pixelCount += (5 - i) * klist[i].Key;
 			}
 
-			System.Windows.Media.Color cl = System.Windows.Media.Color.FromArgb((byte)255,
-								(byte)(Math.Min(255, r / pixelCount * 16)),
-								(byte)(Math.Min(255, g / pixelCount * 16)),
-								(byte)(Math.Min(255, b / pixelCount * 16)));
+			Console.WriteLine("{0} {1} {2} : {3}\n{4} {5} {6}", r, g, b, pixelCount, r / pixelCount * 16, g / pixelCount * 16, b / pixelCount * 16);
 
-			return cl;
+			r = Math.Min(255, r / pixelCount * 16);
+			g = Math.Min(255, g / pixelCount * 16);
+			b = Math.Min(255, b / pixelCount * 16);
+
+			for (; ; ) {
+				if (r < 150 || g < 150 || b < 150) { break; }
+				r--; g--; b--;
+			}
+
+			return System.Windows.Media.Color.FromArgb((byte)255, (byte)r, (byte)g, (byte)b);
 		}
 	}
 }

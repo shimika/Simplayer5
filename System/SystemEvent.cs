@@ -36,21 +36,35 @@ namespace Simplayer5 {
 		}
 
 		private void MinimizeWindow() {
-			if (Setting.MinToTray) {
-				FocusZOrderWindow();
-				AnimateWindow(0);
-			} else {
-				this.WindowState = WindowState.Minimized;
+			if (Setting.IsVisible) {
+				Setting.IsVisible = false;
+
+				if (Setting.MinToTray) {
+					FocusZOrderWindow();
+					AnimateWindow(0);
+				} else {
+					this.WindowState = WindowState.Minimized;
+				}
 			}
 		}
 
 		private void ResumeWindow() {
 			this.Activate();
 
-			if (Setting.MinToTray) {
-				AnimateWindow(1, LastY);
-			} else {
-				this.WindowState = WindowState.Normal;
+			if (!Setting.IsVisible) {
+				Setting.IsVisible = true;
+
+				if (Setting.MinToTray) {
+					AnimateWindow(1, LastY);
+				} else {
+					this.WindowState = WindowState.Normal;
+				}
+			}
+		}
+
+		private void MainWindow_StateChanged(object sender, EventArgs e) {
+			if (this.WindowState == System.Windows.WindowState.Normal) {
+				ResumeWindow();
 			}
 		}
 
@@ -88,14 +102,12 @@ namespace Simplayer5 {
 		private void AnimateWindow(int opacity, double top = 0) {
 			if (opacity == 0) {
 				this.IsHitTestVisible = false;
-				Setting.IsVisible = false;
 
 				LastY = this.Top;
 				top = LastY - 50;
 				new AltTab().HideAltTab(this);
 			} else {
 				this.IsHitTestVisible = true;
-				Setting.IsVisible = true;
 				new AltTab().ShowAltTab(this);
 			}
 
@@ -111,12 +123,18 @@ namespace Simplayer5 {
 
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
 			try {
-				//dWindow.Close();
+				PrevWindow.Close();
 			} catch { }
 
 			//MusicPlayer.Stop();
 			TrayNotify.Dispose();
 			System.Windows.Application.Current.Shutdown();
+		}
+
+		public bool ProcessCommandLineArgs(IList<string> args) {
+			if (args == null || args.Count == 0) { return true; }
+			ResumeWindow();
+			return true;
 		}
 	}
 }

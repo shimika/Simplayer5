@@ -57,11 +57,13 @@ namespace Simplayer5 {
 		}
 
 		private void buttonBack_Click(object sender, RoutedEventArgs e) {
-			ShowSettingWindow(false);
 			ReturnTab();
 		}
 
 		private void ReturnTab() {
+			if (TabMode == ViewStatus.Setting) {
+				ShowSettingWindow(false);
+			}
 			ChangeTab(ViewMode);
 
 			switch (ViewMode) {
@@ -87,6 +89,7 @@ namespace Simplayer5 {
 			}
 
 			try {
+				if (status[5] == '-') { return; }
 				int v = Convert.ToInt32(status[5].ToString());
 
 				foreach (Image img in (buttonSortCollection.Content as Grid).Children) {
@@ -102,7 +105,8 @@ namespace Simplayer5 {
 				(buttonSortCollection.Content as Grid).Children[v].Visibility = GetVisibility(true);
 
 				ChangePopupMode(PopupStatus.None);
-			} catch { }
+			} catch(Exception ex) {
+			}
 		}
 
 		private void ChangePopupMode(PopupStatus mode) {

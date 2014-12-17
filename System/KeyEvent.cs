@@ -8,6 +8,7 @@ using System.Windows.Input;
 
 namespace Simplayer5 {
 	public partial class MainWindow : Window {
+		string AvailString = "1234567890QWERTYUIOPASDFGHJKLZXCVBNM";
 		private void Window_KeyDown(object sender, KeyEventArgs e) {
 			if (!Setting.IsVisible) { return; }
 
@@ -16,13 +17,39 @@ namespace Simplayer5 {
 			bool SystemEvent = true;
 			switch (e.Key) {
 				case Key.Escape:
-					MinimizeWindow();
+					switch (TabMode) {
+						case ViewStatus.Setting:
+							ReturnTab();
+							break;
+						case ViewStatus.Search:
+							ReturnTab();
+							break;
+						default:
+							MinimizeWindow();
+							break;
+					}
 					break;
 				case Key.Left:
-					MovePlay(-1);
+					if ((Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift) {
+						try {
+							MusicPlayer.Position = new TimeSpan(0, 0, (int)MusicPlayer.Position.TotalSeconds - 3);
+						} catch { }
+					} else if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control) {
+						try {
+							MusicPlayer.Position = new TimeSpan(0, 0, 0);
+						} catch { }
+					} else {
+						MovePlay(-1, false);
+					}
 					break;
 				case Key.Right:
-					MovePlay(1);
+					if ((Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift) {
+						try {
+							MusicPlayer.Position = new TimeSpan(0, 0, (int)MusicPlayer.Position.TotalSeconds + 3);
+						} catch { }
+					} else {
+						MovePlay(1, false);
+					}
 					break;
 				case Key.Space:
 					TogglePlayingStatus();
@@ -30,6 +57,25 @@ namespace Simplayer5 {
 				case Key.Back:
 					if (ListMode == ListStatus.Folder) {
 						ReturnTab();
+					}
+					break;
+				case Key.OemQuestion: 
+					if (TabMode == ViewStatus.Mini) {
+						this.Height = 600;
+						ChangeTab(ViewMode);
+					} else {
+						this.Height = 200;
+						ChangeTab(ViewStatus.Mini);
+					}
+					break;
+				case Key.OemComma:
+					if (Setting.PlayMode != 0) {
+						LyricsWindow.ChangeOffset(-200);
+					}
+					break;
+				case Key.OemPeriod:
+					if (Setting.PlayMode != 0) {
+						LyricsWindow.ChangeOffset(200);
 					}
 					break;
 				default:
@@ -109,9 +155,9 @@ namespace Simplayer5 {
 			}
 
 
-			if (ViewMode != ViewStatus.All && ViewMode != ViewStatus.Artist && ViewMode != ViewStatus.Album) { return; }
+			if (TabMode != ViewStatus.All && TabMode != ViewStatus.Artist && TabMode != ViewStatus.Album) { return; }
 
-			string input = "?";
+			string input = "?!";
 			if (e.Key.ToString()[0] == 'D' && Char.IsNumber(e.Key.ToString(), e.Key.ToString().Length - 1)) {
 				input = e.Key.ToString().Substring(1);
 			} else {
@@ -120,7 +166,7 @@ namespace Simplayer5 {
 				}
 			}
 
-			if (input.Length > 0) {
+			if (input.Length == 1 && AvailString.IndexOf(input) >= 0) {
 				int idx = GetHead(input);
 				if (idx < 0) {
 					Notice(string.Format("{0}에 해당하는 노래가 없습니다", GetSearchTag()));

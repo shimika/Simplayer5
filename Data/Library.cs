@@ -53,9 +53,13 @@ namespace Simplayer5 {
 					Setting.InsertID = Math.Max(Setting.InsertID, Convert.ToInt32(item["ID"].GetValue()) + 1);
 				}
 			}
+
+			RefreshLibraryInfo();
 		}
 
 		public void SaveSongList() {
+			RefreshLibraryInfo();
+
 			List<SongData> list = Data.DictSong.Values.OrderBy(x => Data.PosSong[x.ID]).ToList();
 
 			JsonArrayCollection saveListCollection = new JsonArrayCollection();

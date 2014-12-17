@@ -10,7 +10,8 @@
         MinWidth="380" MinHeight="180" Width="370" Height="600" Loaded="Window_Loaded"
         PreviewDragEnter="Window_PreviewDragEnter" PreviewDragLeave="Window_PreviewDragLeave"
         PreviewDragOver="Window_PreviewDragOver" PreviewDrop="Window_PreviewDrop"
-        KeyDown="Window_KeyDown" Activated="Window_Activated" Deactivated="Window_Deactivated" Closing="Window_Closing">
+        KeyDown="Window_KeyDown" Activated="Window_Activated" Deactivated="Window_Deactivated" Closing="Window_Closing"
+        StateChanged="MainWindow_StateChanged">
 
     <!--  -->
     <Grid Margin="4" Background="Gray">
@@ -490,7 +491,7 @@
                 <!-- Info TextBlock + Textbox -->
                 <TextBlock x:Name="textTabCaption" Grid.Column="1" Grid.ColumnSpan="2" Text="" TextTrimming="CharacterEllipsis"
                            Margin="10,0,135,0" FontSize="15" Foreground="White" Visibility="Collapsed"/>
-                <TextBox x:Name="textboxTabInput" 
+                <TextBox x:Name="textboxTabInput" TextChanged="textboxTabInput_TextChanged" 
                          Visibility="Collapsed" Grid.Column="1" Grid.ColumnSpan="2" Margin="5,5,40,5"/>
             </Grid>
 

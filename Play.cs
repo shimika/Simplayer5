@@ -10,6 +10,8 @@ using System.Windows.Threading;
 namespace Simplayer5 {
 	public partial class MainWindow : Window {
 		MediaPlayer MusicPlayer = new MediaPlayer();
+		PreviewWindow PrevWindow;
+		LyricsWindow LyricsWindow;
 		SongData NowPlaying = new SongData() { ID = -1 };
 		int PlayingDirection = 1;
 
@@ -26,6 +28,11 @@ namespace Simplayer5 {
 
 			MusicPlayer.MediaEnded += MusicPlayer_MediaEnded;
 			MusicPlayer.MediaFailed += MusicPlayer_MediaFailed;
+
+			PrevWindow = new PreviewWindow();
+			PrevWindow.Show();
+			LyricsWindow = new LyricsWindow(Setting.LyricsOn);
+			LyricsWindow.Show();
 		}
 
 		private void TimerDelay_Tick(object sender, EventArgs e) {
@@ -52,7 +59,7 @@ namespace Simplayer5 {
 				(int)NowPlaying.Duration.TotalMinutes,
 				NowPlaying.Duration.Seconds);
 
-			//LyricsWindow.lT.Text = string.Format("{0} / {1}", strNow, strTot);
+			LyricsWindow.lT.Text = string.Format("{0} / {1}", strNow, strTot);
 
 			textPlayTimeNow.Text = strNow;
 			textPlayTimeTotal.Text = strTot;
@@ -63,7 +70,7 @@ namespace Simplayer5 {
 				MoveGauge(gridPlayingGauge.ActualWidth * PlayPerTotal);
 			}
 
-			//LyricsWindow.GetPlayTime(MusicPlayer.Position);
+			LyricsWindow.GetPlayTime(MusicPlayer.Position);
 		}
 
 		private void MusicPlayer_MediaEnded(object sender, EventArgs e) {
@@ -79,7 +86,7 @@ namespace Simplayer5 {
 			MusicPrepare(NowPlaying.ID, PlayingDirection * Setting.RandomSeed, false, true);
 		}
 
-		public bool MusicPrepare(int id, int playType, bool isShowPreview, bool isForced = false) {
+		public bool MusicPrepare(int id, int playType, bool showPreview, bool isForced = false) {
 			if (!isForced) {
 				if (isDelay) { return false; }
 
@@ -87,7 +94,7 @@ namespace Simplayer5 {
 				// else				     delay 200ms
 
 				isDelay = true;
-				TimerDelay.Interval = TimeSpan.FromMilliseconds(isShowPreview ? 350 : 200);
+				TimerDelay.Interval = TimeSpan.FromMilliseconds(showPreview ? 350 : 200);
 				TimerDelay.Start();
 			}
 
@@ -101,7 +108,6 @@ namespace Simplayer5 {
 			// if select specific, nID is positive
 			// else ID is negative
 
-			Console.WriteLine(id);
 			if (!DictShuffle.ContainsKey(id)) {
 				ShuffleList();
 
@@ -113,7 +119,7 @@ namespace Simplayer5 {
 					firstID = i;
 				}
 
-				MusicPrepare(firstID, 0, isShowPreview, true);
+				MusicPrepare(firstID, 0, showPreview, true);
 				return true;
 			}
 
@@ -126,12 +132,12 @@ namespace Simplayer5 {
 				PlayingDirection = -1;
 			}
 
-			PlayMusic(DictShuffle[id].GetID(playType));
+			PlayMusic(DictShuffle[id].GetID(playType), showPreview);
 
 			return true;
 		}
 
-		private void PlayMusic(int id) {
+		private void PlayMusic(int id, bool showPreview) {
 			if (!Data.DictSong.ContainsKey(id)) {
 				MusicPrepare(-1, 1, true);
 				return;
@@ -178,6 +184,13 @@ namespace Simplayer5 {
 
 			NowPlaying.ID = id;
 			RefreshList();
+
+			PrevWindow.AnimateWindow(
+				NowPlaying.Title,
+				NowPlaying.Artist,
+				showPreview && Setting.Notification && !Setting.LyricsOn);
+
+			LyricsWindow.InitLyrics(NowPlaying);
 		}
 
 		private void StopPlayer() {
@@ -195,6 +208,8 @@ namespace Simplayer5 {
 			textPlayArtist.Text = string.Format("ver.{0}", Setting.Version);
 			textPlayAlbum.Text = "simple is best";
 			imageAlbumart.Source = imageBackground.Source = TagLibrary.GetSource("cover.png");
+
+			LyricsWindow.ResetLyricsWindow();
 
 			RefreshList();
 			MusicPlayer.Stop();
@@ -225,11 +240,11 @@ namespace Simplayer5 {
 			}
 		}
 
-		private void buttonPrev_Click(object sender, RoutedEventArgs e) { MovePlay(-1); }
-		private void buttonNext_Click(object sender, RoutedEventArgs e) { MovePlay(1); }
-		private void MovePlay(int direction) {
+		private void buttonPrev_Click(object sender, RoutedEventArgs e) { MovePlay(-1, false); }
+		private void buttonNext_Click(object sender, RoutedEventArgs e) { MovePlay(1, false); }
+		private void MovePlay(int direction, bool showPreview) {
 			if (NowPlaying.ID >= 0) {
-				MusicPrepare(NowPlaying.ID, direction * Setting.RandomSeed, false);
+				MusicPrepare(NowPlaying.ID, direction * Setting.RandomSeed, showPreview);
 			}
 		}
 

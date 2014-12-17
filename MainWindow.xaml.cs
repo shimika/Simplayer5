@@ -25,15 +25,13 @@ namespace Simplayer5 {
 			this.Top = SystemParameters.PrimaryScreenHeight - SystemParameters.MaximizedPrimaryScreenHeight + 100;
 		}
 
-		private void buttonSearch_Click(object sender, RoutedEventArgs e) {
-
-		}
-
 		private void Window_Loaded(object sender, RoutedEventArgs e) {
 			InitTab();
 
 			Setting.LoadSetting();
+			SetHotkeyEvent();
 			RefreshSettingControls();
+
 			InitListControl();
 			InitIndexer();
 			InitTray();
@@ -42,6 +40,10 @@ namespace Simplayer5 {
 			LoadSongList();
 			RefreshListType(ListStatus.All);
 			ShuffleList();
+
+			ResumeWindow();
 		}
+
+
 	}
 }

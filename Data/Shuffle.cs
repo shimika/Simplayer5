@@ -52,17 +52,11 @@ namespace Simplayer5 {
 			Random random = new Random();
 			int[] arr = list.OrderBy(x => random.Next()).ToArray();
 
-			Console.WriteLine("Shuffle");
-			for (int i = 0; i < arr.Length; i++) {
-				Console.Write(arr[i] + " ");
+			for (int i = 0; i < list.Count; i++) {
+				DictShuffle[arr[i]].InitRandData(
+					arr[(i + list.Count - 1) % list.Count],
+					arr[(i + 1) % list.Count]);
 			}
-			Console.WriteLine();
-
-				for (int i = 0; i < list.Count; i++) {
-					DictShuffle[arr[i]].InitRandData(
-						arr[(i + list.Count - 1) % list.Count],
-						arr[(i + 1) % list.Count]);
-				}
 		}
 
 		private void ShuffleList() {

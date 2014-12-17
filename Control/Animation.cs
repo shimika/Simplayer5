@@ -50,7 +50,7 @@ namespace Simplayer5 {
 		}
 
 		private ThicknessAnimation GetScrollAnimation(int start, int end, double duration) {
-			duration = Math.Min(450, duration);
+			duration = Math.Min(400, duration);
 			duration = Math.Max(150, duration);
 
 			return new ThicknessAnimation(

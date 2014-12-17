@@ -34,9 +34,7 @@ namespace Simplayer5 {
 
 			textVersion.Text = Setting.Version;
 
-			//if (Setting.Hotkey) { ToggleHotKeyMode(true); }
-
-			//buttonIndexerSort.Visibility = Setting.IsSorted ? Visibility.Collapsed : Visibility.Visible;
+			if (Setting.Hotkey) { ToggleHotKeyMode(true); }
 
 			Setting.SaveSetting();
 		}
@@ -45,7 +43,7 @@ namespace Simplayer5 {
 			this.Topmost = Setting.TopMost;
 			this.ShowInTaskbar = !Setting.MinToTray;
 
-			//MusicPlayer.Volume = Setting.Volume;
+			MusicPlayer.Volume = Setting.Volume;
 		}
 
 		private void buttonSettingTopMost_Click(object sender, RoutedEventArgs e) {
@@ -58,7 +56,6 @@ namespace Simplayer5 {
 		}
 		private void buttonSettingHotkey_Click(object sender, RoutedEventArgs e) {
 			Setting.Hotkey = !Setting.Hotkey;
-			//ToggleHotKeyMode(Setting.Hotkey);
 			RefreshSettingControls();
 		}
 		private void buttonSettingLyrics_Click(object sender, RoutedEventArgs e) {
@@ -78,7 +75,6 @@ namespace Simplayer5 {
 
 				RefreshContent();
 				SortSongs();
-				//ShuffleList(0);
 				SaveSongList();
 				Setting.SaveSetting();
 			}
@@ -110,10 +106,9 @@ namespace Simplayer5 {
 		}
 		private void buttonLyrics_Click(object sender, RoutedEventArgs e) {
 			Setting.LyricsOn = !Setting.LyricsOn;
-			//LyricsWindow.ToggleLyrics(Setting.LyricsOn);
+			LyricsWindow.ToggleLyrics(Setting.LyricsOn);
 			RefreshSettingControls();
 		}
-
 
 		private void buttonSettingGeneral_Click(object sender, RoutedEventArgs e) {
 			ChangeSettingTab(true);
@@ -140,6 +135,14 @@ namespace Simplayer5 {
 		private void buttonSetting_Click(object sender, RoutedEventArgs e) {
 			ShowSettingWindow(true);
 			ChangeTab(ViewStatus.Setting);
+		}
+
+		private void RefreshLibraryInfo() {
+			textSongCount.Text = Data.DictSong.Count.ToString();
+			textArtistCount.Text = Data.DictSong.Select(x => x.Value.Artist)
+						.Distinct().Count().ToString();
+			textAlbumCount.Text = Data.DictSong.Select(x => new DetailData(x.Value.Album, x.Value.AlbumArtist, -1))
+						.Distinct(new DetailComparer()).Count().ToString();
 		}
 	}
 }

@@ -60,6 +60,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -74,25 +75,38 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
+    <Compile Include="Search.cs" />
+    <Compile Include="CustomControl\SearchButton.xaml.cs">
+      <DependentUpon>SearchButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="System\WinAPI.cs" />
+    <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Compile Include="AltTab.cs" />
-    <Compile Include="Animation.cs" />
-    <Compile Include="BindingConverter.cs" />
+    </Page>
+    <Compile Include="CustomControl\CondensedTextBlock.cs" />
+    <Compile Include="System\GlobalHotkey.cs" />
+    <Compile Include="LyricsWindow.xaml.cs">
+      <DependentUpon>LyricsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PreviewWindow.xaml.cs">
+      <DependentUpon>PreviewWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Lyrics.cs" />
+    <Compile Include="System\AltTab.cs" />
+    <Compile Include="Control\Animation.cs" />
+    <Compile Include="CustomControl\BindingConverter.cs" />
     <Compile Include="CustomControl\FolderButton.xaml.cs">
       <DependentUpon>FolderButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomControl\DetailButton.xaml.cs">
       <DependentUpon>DetailButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GaugeEvent.cs" />
-    <Compile Include="KeyEvent.cs" />
-    <Compile Include="ListOrdering.cs" />
-    <Compile Include="Indexer.cs" />
-    <Compile Include="DivideString.cs" />
-    <Compile Include="Hash.cs" />
+    <Compile Include="Control\GaugeEvent.cs" />
+    <Compile Include="System\KeyEvent.cs" />
+    <Compile Include="Control\ListOrdering.cs" />
+    <Compile Include="Control\Indexer.cs" />
+    <Compile Include="Data\DivideString.cs" />
     <Compile Include="CustomControl\IndexerButton.xaml.cs">
       <DependentUpon>IndexerButton.xaml</DependentUpon>
     </Compile>
@@ -105,22 +119,22 @@
     <Compile Include="JsonUtility\JsonStringValue.cs" />
     <Compile Include="JsonUtility\JsonTextParser.cs" />
     <Compile Include="JsonUtility\JsonUtility.cs" />
-    <Compile Include="Library.cs" />
-    <Compile Include="ListContent.cs" />
-    <Compile Include="Notice.cs" />
-    <Compile Include="ListControl.cs" />
+    <Compile Include="Data\Library.cs" />
+    <Compile Include="Control\Notice.cs" />
+    <Compile Include="Control\ListControl.cs" />
     <Compile Include="Play.cs" />
-    <Compile Include="Setting.cs" />
-    <Compile Include="SettingUI.cs" />
+    <Compile Include="Data\Setting.cs" />
+    <Compile Include="Control\SettingUI.cs" />
     <Compile Include="CustomControl\SongButton.xaml.cs">
       <DependentUpon>SongButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Shortcut.cs" />
-    <Compile Include="Shuffle.cs" />
-    <Compile Include="Struct.cs" />
-    <Compile Include="SystemEvent.cs" />
-    <Compile Include="Tab.cs" />
-    <Compile Include="TagLibrary.cs" />
+    <Compile Include="Data\Shortcut.cs" />
+    <Compile Include="Data\Shuffle.cs" />
+    <Compile Include="System\SingleInstance.cs" />
+    <Compile Include="Data\Struct.cs" />
+    <Compile Include="System\SystemEvent.cs" />
+    <Compile Include="Control\Tab.cs" />
+    <Compile Include="TagLib\TagLibrary.cs" />
     <Compile Include="TagLib\Aac\AudioHeader.cs" />
     <Compile Include="TagLib\Aac\BitStream.cs" />
     <Compile Include="TagLib\Aac\File.cs" />
@@ -354,10 +368,10 @@
     <Compile Include="TagLib\Xmp\XmpNodeType.cs" />
     <Compile Include="TagLib\Xmp\XmpNodeVisitor.cs" />
     <Compile Include="TagLib\Xmp\XmpTag.cs" />
-    <Compile Include="Tray.cs" />
-    <Compile Include="UI.cs" />
-    <Compile Include="Variable.cs" />
-    <Compile Include="Volume.cs" />
+    <Compile Include="System\Tray.cs" />
+    <Compile Include="Control\UI.cs" />
+    <Compile Include="Data\Variable.cs" />
+    <Compile Include="Control\Volume.cs" />
     <Page Include="CustomControl\FolderButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -370,11 +384,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="LyricsWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="AniScrollViewer.cs" />
+    <Compile Include="Control\AniScrollViewer.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -384,6 +402,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="CustomControl\SongButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PreviewWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomControl\SearchButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
