@@ -61,6 +61,7 @@ namespace Simplayer5 {
 		}
 
 		private void ReturnTab() {
+			textboxTabInput.Text = "";
 			if (TabMode == ViewStatus.Setting) {
 				ShowSettingWindow(false);
 			}

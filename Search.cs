@@ -9,8 +9,6 @@ using System.Windows.Controls.Primitives;
 namespace Simplayer5 {
 	public partial class MainWindow : Window {
 		private void buttonSearch_Click(object sender, RoutedEventArgs e) {
-			textboxTabInput.Text = "";
-
 			ChangeTab(ViewStatus.Search);
 			ListMode = ListStatus.Search;
 			LaunchIndexer(false, 0);

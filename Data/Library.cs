@@ -161,7 +161,8 @@ namespace Simplayer5 {
 			foreach (string path in files) {
 				SongData sData = new SongData() {
 					ID = Setting.InsertID,
-					FilePath = path, AddDate = addDate
+					FilePath = path, AddDate = addDate,
+					New = true,
 				};
 
 				try {
