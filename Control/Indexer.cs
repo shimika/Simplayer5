@@ -41,6 +41,7 @@ namespace Simplayer5 {
 
 		int[] headIndex = new int[55];
 		private void RefreshIndexer(List<string> list) {
+
 			if (ListMode == ListStatus.All && !Setting.IsSorted) {
 				gridIndexerInner.Visibility = Visibility.Collapsed;
 				buttonIndexerSort.Visibility = Visibility.Visible;

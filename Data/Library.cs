@@ -58,6 +58,10 @@ namespace Simplayer5 {
 		}
 
 		public void SaveSongList() {
+			if (!Directory.Exists(Setting.SettingFolder)) {
+				Directory.CreateDirectory(Setting.SettingFolder);
+			}
+
 			RefreshLibraryInfo();
 
 			List<SongData> list = Data.DictSong.Values.OrderBy(x => Data.PosSong[x.ID]).ToList();
@@ -173,10 +177,9 @@ namespace Simplayer5 {
 						Data.DictSong.Add(sData.ID, sData);
 					}
 				} catch (Exception ex) {
-					MessageBox.Show(ex.Message + "\n" + "AddFiles (Top) (Library.cs");
+					MessageBox.Show(ex.Message + "\n" + "AddFiles (Top) (Library.cs)");
 				}
 			}
-			
 
 			try {
 				if (focusID >= 0) {
@@ -194,7 +197,7 @@ namespace Simplayer5 {
 					ShuffleList();
 				}
 			} catch (Exception ex) {
-				MessageBox.Show(ex.Message + "\n" + "AddFiles (Library.cs");
+				MessageBox.Show(ex.Message + "\n" + "AddFiles (Library.cs)");
 			}
 		}
 

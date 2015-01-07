@@ -148,7 +148,7 @@ namespace Simplayer5 {
 			} 
 		}
 
-		string saveFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Simplayer4Lyrics\";
+		string saveFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\SimplayerLyrics\";
 		public void ChangeOffset(int add) {
 			if (strMD5 != "") {
 				nOffset += add;

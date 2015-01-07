@@ -28,22 +28,24 @@ namespace Simplayer5 {
 		private void Window_Loaded(object sender, RoutedEventArgs e) {
 			InitTab();
 
-			Setting.LoadSetting();
-			SetHotkeyEvent();
-			RefreshSettingControls();
+			try {
+				Setting.LoadSetting();
+				SetHotkeyEvent();
+				RefreshSettingControls();
 
-			InitListControl();
-			InitIndexer();
-			InitTray();
-			InitPlayer();
+				InitListControl();
+				InitIndexer();
+				InitTray();
+				InitPlayer();
 
-			LoadSongList();
-			RefreshListType(ListStatus.All);
-			ShuffleList();
+				LoadSongList();
+				RefreshListType(ListStatus.All);
+				ShuffleList();
 
-			ResumeWindow();
+				ResumeWindow();
+			} catch (Exception ex) {
+				MessageBox.Show(ex.Message);
+			}
 		}
-
-
 	}
 }

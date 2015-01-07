@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Json;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Simplayer5 {
 	class Setting {
@@ -12,7 +13,7 @@ namespace Simplayer5 {
 
 		public static string ListFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Simplayer5\Simplayer.ini";
 		public static string SettingFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Simplayer5\SimplayerPref.ini";
-		public static string ffFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Simplayer5";
+		public static string SettingFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Simplayer5";
 
 		public static bool TopMost = false, MinToTray = false, Hotkey = false, LyrRight = true, Notification = false, SortAuto = false, PlayDoubleClick = true;
 		public static bool LyricsOn = false;
@@ -31,7 +32,9 @@ namespace Simplayer5 {
 		// Method
 
 		public static void LoadSetting() {
-			if (!File.Exists(SettingFile)) { SaveSetting(); }
+			if (!File.Exists(SettingFile)) {
+				SaveSetting();
+			}
 
 			JsonObjectCollection loadCollection;
 			using (StreamReader sr = new StreamReader(SettingFile)) {
@@ -81,6 +84,9 @@ namespace Simplayer5 {
 		}
 
 		public static void SaveSetting() {
+			if (!Directory.Exists(SettingFolder)) {
+				Directory.CreateDirectory(SettingFolder);
+			}
 
 			JsonObjectCollection saveCollection = new JsonObjectCollection();
 
