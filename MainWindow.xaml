@@ -390,9 +390,18 @@
 
                     <Grid Height="40" Margin="0,20,0,0" Width="370" HorizontalAlignment="Left">
                         <Image Source="/Resources/pref-version.png" Width="16" Height="16" HorizontalAlignment="Left" Margin="10,0,0,0"/>
-                        <TextBlock Text="Version" Width="250" Margin="40,0,0,0"
+                        <TextBlock Text="Current Version" Width="250" Margin="40,0,0,0"
                                    HorizontalAlignment="Left" FontSize="16"/>
                         <TextBlock x:Name="textVersion" Text="5.0.0" Width="100" HorizontalAlignment="Right"
+                                   TextAlignment="Right" Foreground="Black"
+                                   FontSize="16" Margin="0,0,15,0"/>
+                        <Rectangle Fill="{DynamicResource sColor}" Height="1" Opacity="0.4" VerticalAlignment="Bottom" Margin="40,0,10,0"/>
+                    </Grid>
+                    <Grid Height="40" Width="370" Background="Transparent" Cursor="Hand" HorizontalAlignment="Left" MouseLeftButtonDown="CheckUpdate_MouseDown">
+                        <Image Source="/Resources/pref-newversion.png" Width="16" Height="16" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+                        <TextBlock Text="Newest Version" Width="250" Margin="40,0,0,0"
+                                   HorizontalAlignment="Left" FontSize="16"/>
+                        <TextBlock x:Name="textNewVersion" Text="???" Width="100" HorizontalAlignment="Right"
                                    TextAlignment="Right" Foreground="{DynamicResource sColor}"
                                    FontSize="16" Margin="0,0,15,0"/>
                         <Rectangle Fill="{DynamicResource sColor}" Height="1" Opacity="0.4" VerticalAlignment="Bottom" Margin="40,0,10,0"/>

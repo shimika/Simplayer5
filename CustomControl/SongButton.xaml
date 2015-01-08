@@ -12,7 +12,7 @@
         <Grid.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="{Binding Title}" IsHitTestVisible="False"/>
-                <MenuItem Header="폴더 열기" Click="MenuItem_Open"/>
+                <MenuItem Header="파일 위치 열기" Click="MenuItem_Open"/>
                 <MenuItem Header="삭제" Click="MenuItem_Delete"/>
                 <MenuItem Header="닫기"/>
             </ContextMenu>

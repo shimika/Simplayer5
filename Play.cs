@@ -33,6 +33,8 @@ namespace Simplayer5 {
 			PrevWindow.Show();
 			LyricsWindow = new LyricsWindow(Setting.LyricsOn);
 			LyricsWindow.Show();
+
+			textPlayArtist.Text = string.Format("ver.{0}", Setting.Version);
 		}
 
 		private void TimerDelay_Tick(object sender, EventArgs e) {

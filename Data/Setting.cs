@@ -20,7 +20,7 @@ namespace Simplayer5 {
 		public static double Volume = 0.5;
 
 		public static bool IsSorted = false, IsVisible = true;
-		public static string Version = "5.1";
+		public static string Version = "5.1.1";
 
 		public static int InsertID;
 

@@ -30,6 +30,7 @@ namespace Simplayer5 {
 
 			try {
 				Setting.LoadSetting();
+
 				SetHotkeyEvent();
 				RefreshSettingControls();
 
@@ -43,6 +44,7 @@ namespace Simplayer5 {
 				ShuffleList();
 
 				ResumeWindow();
+				CheckUpdate();
 			} catch (Exception ex) {
 				MessageBox.Show(ex.Message);
 			}
