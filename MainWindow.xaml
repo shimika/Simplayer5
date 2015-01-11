@@ -215,7 +215,7 @@
                         <TextBlock x:Name="textPlayTitle" Text="Simplayer5" Foreground="White" FontSize="17" Margin="0,0,0,5"/>
                         <StackPanel Orientation="Horizontal" Width="240" MinWidth="240" HorizontalAlignment="Left">
                             <TextBlock x:Name="textPlayArtist" Text="ver.5.1" Foreground="White" FontSize="13.33" Margin="0,0,10,0"/>
-                            <TextBlock x:Name="textPlayAlbum" Text="simple is best" Foreground="LightGray" FontSize="13.33" Margin="0,0,10,0"/>
+                            <TextBlock x:Name="textPlayAlbum" Text="simple is the best" Foreground="LightGray" FontSize="13.33" Margin="0,0,10,0"/>
                         </StackPanel>
                         <Rectangle Fill="Transparent" Width="240" Height="1"/>
                     </StackPanel>

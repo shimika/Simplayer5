@@ -208,7 +208,7 @@ namespace Simplayer5 {
 
 			textPlayTitle.Text = this.Title = "Simplayer5";
 			textPlayArtist.Text = string.Format("ver.{0}", Setting.Version);
-			textPlayAlbum.Text = "simple is best";
+			textPlayAlbum.Text = "simple is the best";
 			imageAlbumart.Source = imageBackground.Source = TagLibrary.GetSource("cover.png");
 
 			LyricsWindow.ResetLyricsWindow();
