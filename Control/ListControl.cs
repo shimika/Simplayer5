@@ -240,7 +240,7 @@ namespace Simplayer5 {
 				if (newStart + i >= 0 && newStart + i < ListSong.Count) {
 					SongBtn[i + inv].SetValue(Data.DictSong[ListSong[newStart + i]],
 						Data.DictSong[ListSong[newStart + i]].ID == SongSelected, true,
-						Data.DictSong[ListSong[newStart + i]].ID == NowPlaying.ID);
+						Data.DictSong[ListSong[newStart + i]].ID == Setting.NowPlaying.ID);
 				} else {
 					SongBtn[i + inv].SetValue(new SongData() { New = false }, false, false, false);
 				}
@@ -358,7 +358,7 @@ namespace Simplayer5 {
 				if (newStart + i >= 0 && newStart + i < ListFolder.Count) {
 					SongBtn[i + inv].SetValue(Data.DictSong[ListFolder[newStart + i]],
 						Data.DictSong[ListFolder[newStart + i]].ID == FolderSelected, true,
-						Data.DictSong[ListFolder[newStart + i]].ID == NowPlaying.ID);
+						Data.DictSong[ListFolder[newStart + i]].ID == Setting.NowPlaying.ID);
 				} else {
 					SongBtn[i + inv].SetValue(new SongData() { New = false }, false, false, false);
 				}
@@ -466,7 +466,7 @@ namespace Simplayer5 {
 						FolderSelected = e.ID;
 
 						if (!Setting.PlayDoubleClick) {
-							NowPlaying.ID = e.ID;
+							Setting.NowPlaying.ID = e.ID;
 
 							switch (ViewMode) {
 								case ViewStatus.Artist:
@@ -484,7 +484,7 @@ namespace Simplayer5 {
 					}
 					if (e.PropertyName == "DoubleClick") {
 						if (Setting.PlayDoubleClick) {
-							NowPlaying.ID = e.ID;
+							Setting.NowPlaying.ID = e.ID;
 
 							switch (ViewMode) {
 								case ViewStatus.Artist:
@@ -662,8 +662,8 @@ namespace Simplayer5 {
 		}
 
 		private void Albumart_MouseDown(object sender, MouseButtonEventArgs e) {
-			if (Data.PosSong.ContainsKey(NowPlaying.ID) && TabMode == ViewStatus.All) {
-				RefreshContent(Data.PosSong[NowPlaying.ID], 1);
+			if (Data.PosSong.ContainsKey(Setting.NowPlaying.ID) && TabMode == ViewStatus.All) {
+				RefreshContent(Data.PosSong[Setting.NowPlaying.ID], 1);
 			}
 		}
 	}

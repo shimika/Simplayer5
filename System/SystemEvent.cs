@@ -126,13 +126,22 @@ namespace Simplayer5 {
 				PrevWindow.Close();
 			} catch { }
 
-			//MusicPlayer.Stop();
+			Setting.SaveSetting();
 			TrayNotify.Dispose();
 			System.Windows.Application.Current.Shutdown();
 		}
 
 		public bool ProcessCommandLineArgs(IList<string> args) {
 			if (args == null || args.Count == 0) { return true; }
+
+			if (args.Count > 1) {
+				switch (args[1]) {
+					case "--forceclose":
+						this.Close();
+						break;
+				}
+			}
+
 			ResumeWindow();
 			return true;
 		}

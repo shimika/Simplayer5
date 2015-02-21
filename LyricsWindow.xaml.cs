@@ -84,7 +84,7 @@ namespace Simplayer5 {
 			lO.Text = "Offset: 0ms";
 
 			strFilePath = nowPlayingData.FilePath;
-			strMD5 = new Lyrics().GetSongMD5FromFile(strFilePath);
+			strMD5 = Lyrics.GetSongMD5(strFilePath);
 
 			if (dictOffset.ContainsKey(strMD5)) {
 				nOffset = dictOffset[strMD5];
@@ -93,31 +93,33 @@ namespace Simplayer5 {
 			Task.Factory.StartNew(() => GetLyricsByFilePath(nowPlayingData.FilePath));
 		}
 
-		private void GetLyricsByFilePath(string strPath) {
+		private void GetLyricsByFilePath(string file) {
 			Lyrics lyr = new Lyrics();
 			LString[] lsLyrics;
 
-			string songMD5 = lyr.GetSongMD5FromFile(strPath);
+			string md5 = Lyrics.GetSongMD5(file);
+			string fLyr = string.Format("{0}{1}.txt", saveFolder, md5);
+			string fSyn = string.Format("{0}{1}_offset.txt", saveFolder, md5);
 
-			if (!dictLyrics.ContainsKey(songMD5)) {
+			if (!dictLyrics.ContainsKey(md5)) {
 				string strLyrics;
 
-				if (lyr.GetLyricsFromFile(strPath)) {
+				if (lyr.GetLyrics(file)) {
 					strLyrics = lyr.LyricLists[0];
 
 					string strBefore = "";
-					if (File.Exists(saveFolder + songMD5 + ".txt")) {
-						using (StreamReader sr = new StreamReader(saveFolder + songMD5 + ".txt")) { strBefore = sr.ReadToEnd(); }
+					if (File.Exists(fLyr)) {
+						using (StreamReader sr = new StreamReader(fLyr)) { strBefore = sr.ReadToEnd(); }
 					}
 
 					if (strBefore != strLyrics) {
-						using (StreamWriter sw = new StreamWriter(saveFolder + songMD5 + ".txt")) { sw.Write(strLyrics); }
-						using (StreamWriter sw = new StreamWriter(saveFolder + songMD5 + "_offset.txt")) { sw.Write("0"); }
+						using (StreamWriter sw = new StreamWriter(fLyr)) { sw.Write(strLyrics); }
+						using (StreamWriter sw = new StreamWriter(fSyn)) { sw.Write("0"); }
 					}
 
 				} else {
-					if (File.Exists(saveFolder + songMD5 + ".txt")) {
-						using (StreamReader sr = new StreamReader(saveFolder + songMD5 + ".txt")) { strLyrics = sr.ReadToEnd(); }
+					if (File.Exists(fLyr)) {
+						using (StreamReader sr = new StreamReader(fLyr)) { strLyrics = sr.ReadToEnd(); }
 					} else {
 						strLyrics = "";
 					}
@@ -125,7 +127,7 @@ namespace Simplayer5 {
 				lyr = null;
 				if (strLyrics == "") { return; }
 				try {
-					using (StreamReader sr = new StreamReader(saveFolder + songMD5 + "_offset.txt")) {
+					using (StreamReader sr = new StreamReader(fSyn)) {
 						nOffset = Convert.ToInt32(sr.ReadLine());
 					}
 				} catch (Exception ex) { }
@@ -140,7 +142,7 @@ namespace Simplayer5 {
 					lsLyrics[i].strLyrics = SplitLyr[i].Substring(10, SplitLyr[i].Length - 10).Trim();
 				}
 				try {
-					dictLyrics.Add(songMD5, lsLyrics);
+					dictLyrics.Add(md5, lsLyrics);
 				} catch { }
 				this.Dispatcher.BeginInvoke(new Action(() => {
 					ChangeOffset(0);

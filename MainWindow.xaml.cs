@@ -30,6 +30,7 @@ namespace Simplayer5 {
 
 			try {
 				Setting.LoadSetting();
+				LoadSongList();
 
 				SetHotkeyEvent();
 				RefreshSettingControls();
@@ -39,12 +40,11 @@ namespace Simplayer5 {
 				InitTray();
 				InitPlayer();
 
-				LoadSongList();
 				RefreshListType(ListStatus.All);
 				ShuffleList();
 
 				ResumeWindow();
-				CheckUpdate();
+				CheckUpdate(false);
 			} catch (Exception ex) {
 				MessageBox.Show(ex.Message);
 			}

@@ -32,7 +32,7 @@ namespace Simplayer5 {
 			textVolume.Text = ((int)(Setting.Volume * 100)).ToString();
 			rectVolumeBar.Height = Setting.Volume * 80;
 
-			textVersion.Text = Setting.Version;
+			textVersion.Text = Version.NowVersion;
 
 			if (Setting.Hotkey) { ToggleHotKeyMode(true); }
 

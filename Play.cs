@@ -12,8 +12,9 @@ namespace Simplayer5 {
 		MediaPlayer MusicPlayer = new MediaPlayer();
 		PreviewWindow PrevWindow;
 		LyricsWindow LyricsWindow;
-		SongData NowPlaying = new SongData() { ID = -1 };
 		int PlayingDirection = 1;
+
+		//public static SongData Setting.NowPlaying = new SongData() { ID = -1 };
 
 		public DispatcherTimer TimerDelay = new DispatcherTimer();
 
@@ -34,7 +35,12 @@ namespace Simplayer5 {
 			LyricsWindow = new LyricsWindow(Setting.LyricsOn);
 			LyricsWindow.Show();
 
-			textPlayArtist.Text = string.Format("ver.{0}", Setting.Version);
+			textPlayArtist.Text = string.Format("ver.{0}", Version.NowVersion);
+
+			if (Data.DictSong.ContainsKey(Setting.NowPlaying.ID)) {
+				SongSelected = Setting.NowPlaying.ID;
+				PlayMusic(Setting.NowPlaying.ID, false, false);
+			}
 		}
 
 		private void TimerDelay_Tick(object sender, EventArgs e) {
@@ -45,9 +51,9 @@ namespace Simplayer5 {
 		private void PlayingTimer_Tick(object sender, EventArgs e) {
 			if (Setting.PlayMode == 0) { return; }
 
-			if (NowPlaying.Duration == TimeSpan.FromSeconds(0)) {
+			if (Setting.NowPlaying.Duration == TimeSpan.FromSeconds(0)) {
 				try {
-					NowPlaying.Duration = MusicPlayer.NaturalDuration.TimeSpan;
+					Setting.NowPlaying.Duration = MusicPlayer.NaturalDuration.TimeSpan;
 				} catch { }
 				return;
 			}
@@ -58,15 +64,15 @@ namespace Simplayer5 {
 			string strBackup = textPlayTimeNow.Text;
 			string strNow = string.Format("{0}:{1:D2}", min, sec);
 			string strTot = string.Format("{0}:{1:D2}",
-				(int)NowPlaying.Duration.TotalMinutes,
-				NowPlaying.Duration.Seconds);
+				(int)Setting.NowPlaying.Duration.TotalMinutes,
+				Setting.NowPlaying.Duration.Seconds);
 
 			LyricsWindow.lT.Text = string.Format("{0} / {1}", strNow, strTot);
 
 			textPlayTimeNow.Text = strNow;
 			textPlayTimeTotal.Text = strTot;
 
-			double PlayPerTotal = MusicPlayer.Position.TotalSeconds / NowPlaying.Duration.TotalSeconds;
+			double PlayPerTotal = MusicPlayer.Position.TotalSeconds / Setting.NowPlaying.Duration.TotalSeconds;
 
 			if (strBackup != strNow) {
 				MoveGauge(gridPlayingGauge.ActualWidth * PlayPerTotal);
@@ -76,16 +82,16 @@ namespace Simplayer5 {
 		}
 
 		private void MusicPlayer_MediaEnded(object sender, EventArgs e) {
-			MusicPrepare(NowPlaying.ID, Setting.PlayingLoopSeed * Setting.RandomSeed, false);
+			MusicPrepare(Setting.NowPlaying.ID, Setting.PlayingLoopSeed * Setting.RandomSeed, false);
 		}
 		private void MusicPlayer_MediaFailed(object sender, ExceptionEventArgs e) {
-			if (Data.DictSong.ContainsKey(NowPlaying.ID)) {
-				Data.DictSong[NowPlaying.ID].Exists = false;
+			if (Data.DictSong.ContainsKey(Setting.NowPlaying.ID)) {
+				Data.DictSong[Setting.NowPlaying.ID].Exists = false;
 				ScrollToIndex(true, 0);
 			}
 
 			if (!CheckPlaybleMusic()) { return; }
-			MusicPrepare(NowPlaying.ID, PlayingDirection * Setting.RandomSeed, false, true);
+			MusicPrepare(Setting.NowPlaying.ID, PlayingDirection * Setting.RandomSeed, false, true);
 		}
 
 		public bool MusicPrepare(int id, int playType, bool showPreview, bool isForced = false) {
@@ -139,64 +145,66 @@ namespace Simplayer5 {
 			return true;
 		}
 
-		private void PlayMusic(int id, bool showPreview) {
+		private void PlayMusic(int id, bool showPreview, bool play = true) {
 			if (!Data.DictSong.ContainsKey(id)) {
 				MusicPrepare(-1, 1, true);
 				return;
 			}
 
 			Data.DictSong[id].Exists = true;
-			NowPlaying.ID = id;
-			NowPlaying.FilePath = Data.DictSong[id].FilePath;
+			Setting.NowPlaying.ID = id;
+			Setting.NowPlaying.FilePath = Data.DictSong[id].FilePath;
 
-			bool isOK = TagLibrary.InsertTagInDatabase(ref NowPlaying, false);
+			bool isOK = TagLibrary.InsertTagInDatabase(ref Setting.NowPlaying, false);
 
 			// If file not exists, or etc errors
 			if (!isOK) {
-				if (Data.DictSong.ContainsKey(NowPlaying.ID)) {
+				if (Data.DictSong.ContainsKey(Setting.NowPlaying.ID)) {
 					Data.DictSong[id].Exists = false;
 					if (!CheckPlaybleMusic()) { return; }
 				}
 
-				MusicPrepare(NowPlaying.ID, PlayingDirection * Setting.RandomSeed, false, true);
+				MusicPrepare(Setting.NowPlaying.ID, PlayingDirection * Setting.RandomSeed, false, true);
 				return;
 			}
 
 			// Set now playing data
 			//CheckTagChanged(id, getSongData);
 
-			Data.DictSong[NowPlaying.ID].New = false;
+			Data.DictSong[Setting.NowPlaying.ID].New = false;
 
 			// Play music
 
-			MusicPlayer.Open(new Uri(Data.DictSong[NowPlaying.ID].FilePath));
-			ResumeMusic();
+			MusicPlayer.Open(new Uri(Data.DictSong[Setting.NowPlaying.ID].FilePath));
+			if (play) {
+				ResumeMusic();
+			}
 
 			// set text
-			imageAlbumart.Source = imageBackground.Source = NowPlaying.AlbumArt;
-			textPlayTitle.Text = NowPlaying.Title;
-			textPlayArtist.Text = NowPlaying.Artist;
-			textPlayAlbum.Text = NowPlaying.Album;
+			imageAlbumart.Source = imageBackground.Source = Setting.NowPlaying.AlbumArt;
+			textPlayTitle.Text = Setting.NowPlaying.Title;
+			textPlayArtist.Text = Setting.NowPlaying.Artist;
+			textPlayAlbum.Text = Setting.NowPlaying.Album;
 
-			this.Title = NowPlaying.Title;
+			this.Title = Setting.NowPlaying.Title;
 
 			// extract albumart color and set theme
-			Color c = TagLibrary.CalculateAverageColor(NowPlaying.AlbumArt);
+			Color c = TagLibrary.CalculateAverageColor(Setting.NowPlaying.AlbumArt);
 			ChangeThemeColor(c);
 
-			NowPlaying.ID = id;
+			Setting.NowPlaying.ID = id;
 			RefreshList();
 
 			PrevWindow.AnimateWindow(
-				NowPlaying.Title,
-				NowPlaying.Artist,
+				Setting.NowPlaying.Title,
+				Setting.NowPlaying.Artist,
 				showPreview && Setting.Notification && !Setting.LyricsOn);
 
-			LyricsWindow.InitLyrics(NowPlaying);
+			LyricsWindow.InitLyrics(Setting.NowPlaying);
 		}
 
 		private void StopPlayer() {
-			NowPlaying.ID = -1;
+			Setting.NowPlaying.ID = -1;
 
 			textPlayTimeNow.Text = "0:00";
 			textPlayTimeTotal.Text = "0:00";
@@ -207,7 +215,7 @@ namespace Simplayer5 {
 			MoveGauge(0);
 
 			textPlayTitle.Text = this.Title = "Simplayer5";
-			textPlayArtist.Text = string.Format("ver.{0}", Setting.Version);
+			textPlayArtist.Text = string.Format("ver.{0}", Version.NowVersion);
 			textPlayAlbum.Text = "simple is the best";
 			imageAlbumart.Source = imageBackground.Source = TagLibrary.GetSource("cover.png");
 
@@ -245,8 +253,8 @@ namespace Simplayer5 {
 		private void buttonPrev_Click(object sender, RoutedEventArgs e) { MovePlay(-1, false); }
 		private void buttonNext_Click(object sender, RoutedEventArgs e) { MovePlay(1, false); }
 		private void MovePlay(int direction, bool showPreview) {
-			if (NowPlaying.ID >= 0) {
-				MusicPrepare(NowPlaying.ID, direction * Setting.RandomSeed, showPreview);
+			if (Setting.NowPlaying.ID >= 0) {
+				MusicPrepare(Setting.NowPlaying.ID, direction * Setting.RandomSeed, showPreview);
 			}
 		}
 

@@ -516,7 +516,13 @@
             </Grid>
 
             <!-- System buttons -->
-            <Grid Background="Transparent" Width="68" Height="26" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,6,0">
+            <Grid Background="Transparent" Width="102" Height="26" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,6,0">
+                <Button x:Name="buttonUpdate" Width="34" Height="26" Background="Transparent"
+                        VerticalAlignment="Top" HorizontalAlignment="Right"
+                        Margin="0,0,68,0" Click="buttonUpdate_Click" Visibility="Collapsed">
+                    <Image Source="Resources/option-loop.png" Width="12"/>
+                </Button>
+                
                 <Button x:Name="buttonMin" Width="34" Height="26" Background="Transparent"
                         VerticalAlignment="Top" HorizontalAlignment="Right"
                         Margin="0,0,34,0" Click="buttonMin_Click">
