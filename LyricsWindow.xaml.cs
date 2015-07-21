@@ -41,14 +41,18 @@ namespace Simplayer5 {
 			if (!Directory.Exists(saveFolder)) { Directory.CreateDirectory(saveFolder); }
 
 			isShowLyrics = !isFirstShow;
-			this.Top = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Bottom - 110;
-			this.Left = Setting.LyrRight ? System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width - 700 : System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Left;
+			this.Top = SystemParameters.FullPrimaryScreenHeight - 110;
+			this.Left = Setting.LyrRight ? SystemParameters.FullPrimaryScreenWidth - 700 :
+										   SystemParameters.WorkArea.Left;
+
+			
 			this.Loaded += delegate(object sender, RoutedEventArgs e) { new AltTab().HideAltTab(this); };
 
 			DispatcherTimer dtm2 = new DispatcherTimer() { Interval = TimeSpan.FromMilliseconds(500) };
 			dtm2.Tick += delegate(object sender2, EventArgs e2) {
 				this.Top = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Bottom - 110;
-				this.Left = Setting.LyrRight ? System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width - 700 : System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Left;
+				this.Left = Setting.LyrRight ? SystemParameters.FullPrimaryScreenWidth - 700 :
+											   SystemParameters.WorkArea.Left;
 				this.Topmost = false; this.Topmost = true;
 			};
 			dtm2.Start();

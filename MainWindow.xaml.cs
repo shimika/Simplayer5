@@ -44,10 +44,19 @@ namespace Simplayer5 {
 				ShuffleList();
 
 				ResumeWindow();
-				CheckUpdate(false);
+				InitUpdater();
 			} catch (Exception ex) {
 				MessageBox.Show(ex.Message);
 			}
+		}
+
+		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
+			Setting.SaveSetting();
+			MusicPlayer.Stop();
+
+			TrayNotify.Dispose();
+			LyricsWindow.Close();
+			PrevWindow.Close();
 		}
 	}
 }

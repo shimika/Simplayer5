@@ -35,9 +35,10 @@ namespace Simplayer5 {
 
 		public PreviewWindow() {
 			InitializeComponent();
-			this.Left = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Left + 100;
-			this.Top = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Bottom - 250;
-			this.Width = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width - 150;
+
+			this.Left = SystemParameters.WorkArea.Left + 100;
+			this.Top = SystemParameters.PrimaryScreenHeight - 250;
+			this.Width = SystemParameters.PrimaryScreenWidth - 150;
 
 			Loaded += (o, e) => new AltTab().HideAltTab(this);
 			dtm.Tick += dtm_Tick;

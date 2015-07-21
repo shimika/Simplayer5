@@ -29,6 +29,7 @@ namespace Simplayer5 {
 				ResumeWindow();
 			}
 		}
+
 		private void MenuShutdown_Click(object sender, EventArgs e) {
 			this.Close();
 		}

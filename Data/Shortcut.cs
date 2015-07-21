@@ -57,7 +57,13 @@ namespace Simplayer5 {
 			int idx = ListShortEng.FindIndex(x => x.StartsWith(SearchTag));
 			if (idx >= 0) { return idx; }
 
-			return ListShortKor.FindIndex(x => x.StartsWith(SearchTag));
+			idx = ListShortKor.FindIndex(x => x.StartsWith(SearchTag));
+			if (idx >= 0) { return idx; }
+
+			idx = ListShortEng.FindIndex(x => x.IndexOf(SearchTag) > 0);
+			if (idx >= 0) { return idx; }
+
+			return ListShortKor.FindIndex(x => x.IndexOf(SearchTag) > 0);
 		}
 
 		private string GetSearchTag() { return SearchTag; }

@@ -10,8 +10,8 @@
         MinWidth="380" MinHeight="180" Width="370" Height="600" Loaded="Window_Loaded"
         PreviewDragEnter="Window_PreviewDragEnter" PreviewDragLeave="Window_PreviewDragLeave"
         PreviewDragOver="Window_PreviewDragOver" PreviewDrop="Window_PreviewDrop"
-        KeyDown="Window_KeyDown" Activated="Window_Activated" Deactivated="Window_Deactivated" Closing="Window_Closing"
-        StateChanged="MainWindow_StateChanged">
+        KeyDown="Window_KeyDown" Activated="Window_Activated" Deactivated="Window_Deactivated"
+        StateChanged="MainWindow_StateChanged" Closing="Window_Closing">
 
     <!--  -->
     <Grid Margin="4" Background="Gray">

@@ -128,6 +128,7 @@ namespace Simplayer5 {
 				case Key.Enter:
 					switch (TabMode) {
 						case ViewStatus.All:
+							ShuffleAll();
 							MusicPrepare(SongSelected, 0, false);
 							return;
 						case ViewStatus.Artist:

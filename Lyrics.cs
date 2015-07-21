@@ -8,7 +8,8 @@ using System.Xml;
 
 namespace Simplayer5 {
 	public class Lyrics {
-		private string soapForm = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:SOAP-ENC=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:ns2=\"ALSongWebServer/Service1Soap\" xmlns:ns1=\"ALSongWebServer\" xmlns:ns3=\"ALSongWebServer/Service1Soap12\"><SOAP-ENV:Body><ns1:GetLyric7><ns1:encData>510090e92db352abad44687c57e07504f1cff1e770d4c31a8607404a26c0ae33cbd95b31c52c54c794b0f2d535b2641f7170bcabf279ba900e50098d946f58496e52541ca01c4e16a7ffaef9d13182fae4baf68ea478b7f2a22a92103d822e6c49c9d187b3911ff325d4dab923da8dc50f3824715083d062a43e28f85eb2f2c0</ns1:encData><ns1:stQuery><ns1:strChecksum>#strChecksum#</ns1:strChecksum><ns1:strVersion>3.19</ns1:strVersion><ns1:strMACAddress>e858217d415f52e84df2d807d2045c5a78f008c9bed684f350f2c78b6fceeacb</ns1:strMACAddress><ns1:strIPAddress>192.168.1.1</ns1:strIPAddress></ns1:stQuery></ns1:GetLyric7></SOAP-ENV:Body></SOAP-ENV:Envelope>";
+		//private string soapForm = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:SOAP-ENC=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:ns2=\"ALSongWebServer/Service1Soap\" xmlns:ns1=\"ALSongWebServer\" xmlns:ns3=\"ALSongWebServer/Service1Soap12\"><SOAP-ENV:Body><ns1:GetLyric7><ns1:encData>510090e92db352abad44687c57e07504f1cff1e770d4c31a8607404a26c0ae33cbd95b31c52c54c794b0f2d535b2641f7170bcabf279ba900e50098d946f58496e52541ca01c4e16a7ffaef9d13182fae4baf68ea478b7f2a22a92103d822e6c49c9d187b3911ff325d4dab923da8dc50f3824715083d062a43e28f85eb2f2c0</ns1:encData><ns1:stQuery><ns1:strChecksum>#strChecksum#</ns1:strChecksum><ns1:strVersion>3.19</ns1:strVersion><ns1:strMACAddress>e858217d415f52e84df2d807d2045c5a78f008c9bed684f350f2c78b6fceeacb</ns1:strMACAddress><ns1:strIPAddress>192.168.1.1</ns1:strIPAddress></ns1:stQuery></ns1:GetLyric7></SOAP-ENV:Body></SOAP-ENV:Envelope>";
+		private string soapForm = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:SOAP-ENC=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:ns2=\"ALSongWebServer/Service1Soap\" xmlns:ns1=\"ALSongWebServer\" xmlns:ns3=\"ALSongWebServer/Service1Soap12\"><SOAP-ENV:Body><ns1:GetLyric5><ns1:stQuery><ns1:strChecksum>#strChecksum#</ns1:strChecksum><ns1:strVersion>2.0 beta2</ns1:strVersion><ns1:strMACAddress></ns1:strMACAddress><ns1:strIPAddress>255.255.255.0</ns1:strIPAddress></ns1:stQuery></ns1:GetLyric5></SOAP-ENV:Body></SOAP-ENV:Envelope>";
 		private string[] lyrList;
 		public string[] LyricLists { get { return lyrList; } }
 
@@ -52,7 +53,7 @@ namespace Simplayer5 {
 				request.Method = "POST";
 				request.UserAgent = "gSOAP/2.7";
 
-				using (StreamWriter sw = new StreamWriter(((WebRequest)request).GetRequestStream())) {
+				using (StreamWriter sw = new StreamWriter(request.GetRequestStream())) {
 					sw.WriteLine(str);
 				}
 

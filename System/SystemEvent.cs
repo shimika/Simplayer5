@@ -121,16 +121,6 @@ namespace Simplayer5 {
 			this.Close();
 		}
 
-		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
-			try {
-				PrevWindow.Close();
-			} catch { }
-
-			Setting.SaveSetting();
-			TrayNotify.Dispose();
-			System.Windows.Application.Current.Shutdown();
-		}
-
 		public bool ProcessCommandLineArgs(IList<string> args) {
 			if (args == null || args.Count == 0) { return true; }
 

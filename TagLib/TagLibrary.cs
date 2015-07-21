@@ -21,7 +21,7 @@ namespace Simplayer5 {
 		static TagLib.File id3;
 
 		public static bool InsertTagInDatabase(ref SongData sData, bool skipImage = true) {
-			string ext = System.IO.Path.GetExtension(sData.FilePath);
+			string ext = System.IO.Path.GetExtension(sData.FilePath).ToLower();
 			if (ext != ".mp3" && ext != ".wma" && ext != ".flac" && ext != ".aac") { return false; }
 			if (!File.Exists(sData.FilePath)) { return false; }
 			

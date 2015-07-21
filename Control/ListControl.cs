@@ -44,10 +44,7 @@ namespace Simplayer5 {
 				SearBtn[i + inv].Response += MainWindow_Response;
 			}
 		}
-
-		/// <summary>
-		/// 리스트에 보여지는 폼의 종류를 폴더를 포함하여 표시합니다.
-		/// </summary>
+		
 		ListStatus ListMode = ListStatus.All;
 
 		int SongSelected = -1, SongStart;

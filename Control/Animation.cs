@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
+using System.Windows.Threading;
 
 namespace Simplayer5 {
 	public partial class MainWindow : Window {
@@ -93,6 +94,32 @@ namespace Simplayer5 {
 			}
 
 			return da;
+		}
+
+		DispatcherTimer timerUpdateIndicator;
+		int turnUpdate;
+
+		private void StartUpdateIndicator() {
+			if (timerUpdateIndicator == null) {
+				timerUpdateIndicator = new DispatcherTimer();
+				timerUpdateIndicator.Interval = TimeSpan.FromMilliseconds(500);
+				timerUpdateIndicator.Tick += timerUpdateIndicator_Tick;
+			}
+			turnUpdate = 0;
+			timerUpdateIndicator.Start();
+		}
+
+		private void StopUpdateIndicator() {
+			if (timerUpdateIndicator != null) {
+				timerUpdateIndicator.Stop();
+			}
+			buttonUpdate.Opacity = 1;
+		}
+
+		private void timerUpdateIndicator_Tick(object sender, EventArgs e) {
+			turnUpdate = (turnUpdate + 1) % 2;
+			buttonUpdate.Opacity = turnUpdate;
+
 		}
 	}
 }

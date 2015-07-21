@@ -71,8 +71,8 @@ namespace Simplayer5 {
 		private void ListArea_MouseDown(object sender, MouseButtonEventArgs e) {
 			if (e.MiddleButton == MouseButtonState.Pressed) {
 				switch (TabMode) {
-					case ViewStatus.All: break;
-					case ViewStatus.Artist: break;
+					case ViewStatus.All:
+					case ViewStatus.Artist: 
 					case ViewStatus.Album: break;
 					default:
 						return;

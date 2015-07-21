@@ -46,7 +46,11 @@ namespace Simplayer5 {
 				try {
 					MusicPlayer.Position = new TimeSpan(0, 0,
 							(int)((mouseMovingPixel / gridPlayingGauge.ActualWidth) * MusicPlayer.NaturalDuration.TimeSpan.TotalSeconds));
-				} catch { }
+
+				}
+				catch(Exception ex) {
+					//Notice(ex.Message);
+				}
 			}
 		}
 	}
