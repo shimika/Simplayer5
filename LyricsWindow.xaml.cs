@@ -41,7 +41,7 @@ namespace Simplayer5 {
 			if (!Directory.Exists(saveFolder)) { Directory.CreateDirectory(saveFolder); }
 
 			isShowLyrics = !isFirstShow;
-			this.Top = SystemParameters.FullPrimaryScreenHeight - 110;
+			this.Top = SystemParameters.PrimaryScreenHeight - 110;
 			this.Left = Setting.LyrRight ? SystemParameters.FullPrimaryScreenWidth - 700 :
 										   SystemParameters.WorkArea.Left;
 
@@ -50,7 +50,7 @@ namespace Simplayer5 {
 
 			DispatcherTimer dtm2 = new DispatcherTimer() { Interval = TimeSpan.FromMilliseconds(500) };
 			dtm2.Tick += delegate(object sender2, EventArgs e2) {
-				this.Top = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Bottom - 110;
+				this.Top = SystemParameters.PrimaryScreenHeight - 110;
 				this.Left = Setting.LyrRight ? SystemParameters.FullPrimaryScreenWidth - 700 :
 											   SystemParameters.WorkArea.Left;
 				this.Topmost = false; this.Topmost = true;
