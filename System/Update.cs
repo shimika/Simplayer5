@@ -55,11 +55,14 @@ namespace Simplayer5 {
 
 		private void UpdateComplete(object sender, UpdateCompleteArgs e) {
 			if (e.Complete) {
+				Setting.SaveSetting();
+				MusicPlayer.Stop();
+				TrayNotify.Dispose();
+
 				try { PrevWindow.Close(); } catch { }
 				try { LyricsWindow.Close(); } catch { }
 
-				Setting.SaveSetting();
-				TrayNotify.Dispose();
+				this.Close();
 			}
 			else {
 				StopUpdateIndicator();

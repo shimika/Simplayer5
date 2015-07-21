@@ -54,9 +54,9 @@ namespace Simplayer5 {
 			Setting.SaveSetting();
 			MusicPlayer.Stop();
 
-			TrayNotify.Dispose();
-			LyricsWindow.Close();
-			PrevWindow.Close();
+			try { TrayNotify.Dispose(); } catch { }
+			try { LyricsWindow.Close(); } catch { }
+			try { PrevWindow.Close(); } catch { }
 		}
 	}
 }
