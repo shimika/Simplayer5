@@ -29,6 +29,7 @@ namespace Simplayer5 {
 		public static int RandomSeed, PlayingLoopSeed;
 
 		public static SongData NowPlaying = new SongData() { ID = -1 };
+        public static TimeSpan NowPlayingPosition = new TimeSpan(0, 0, 0);
 
 		// Method
 
@@ -84,6 +85,9 @@ namespace Simplayer5 {
 						Setting.NowPlaying.ID = Convert.ToInt32(obj.GetValue());
 						Setting.PlayMode = -1;
 						break;
+                    case "NowPlayingPosition":
+                        Setting.NowPlayingPosition = TimeSpan.Parse(obj.GetValue().ToString());
+                        break;
 				}
 			}
 		}
@@ -107,9 +111,10 @@ namespace Simplayer5 {
 			saveCollection.Add(new JsonStringValue("LyricsOn", Setting.LyricsOn.ToString()));
 			saveCollection.Add(new JsonStringValue("Volume", Setting.Volume.ToString()));
 			saveCollection.Add(new JsonStringValue("IsSorted", Setting.IsSorted.ToString()));
-			saveCollection.Add(new JsonStringValue("NowPlayingID", Setting.NowPlaying.ID.ToString()));
+            saveCollection.Add(new JsonStringValue("NowPlayingID", Setting.NowPlaying.ID.ToString()));
+            saveCollection.Add(new JsonStringValue("NowPlayingPosition", Setting.NowPlayingPosition.ToString()));
 
-			using (StreamWriter sw = new StreamWriter(SettingFile)) {
+            using (StreamWriter sw = new StreamWriter(SettingFile)) {
 				sw.Write(saveCollection.ToString());
 			}
 		}

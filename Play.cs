@@ -38,8 +38,16 @@ namespace Simplayer5 {
 			textPlayArtist.Text = string.Format("ver.{0}", Version.NowVersion);
 
 			if (Data.DictSong.ContainsKey(Setting.NowPlaying.ID)) {
-				SongSelected = Setting.NowPlaying.ID;
-				PlayMusic(Setting.NowPlaying.ID, false, false);
+                SongSelected = Setting.NowPlaying.ID;
+
+                TimeSpan curPos = Setting.NowPlayingPosition;
+                int min = (int)curPos.TotalMinutes, sec = curPos.Seconds;
+
+                PlayMusic(Setting.NowPlaying.ID, false, false);
+                textPlayTimeNow.Text = string.Format("{0}:{1:D2}", min, sec);
+                MusicPlayer.Position = curPos;
+                double PlayPerTotal = curPos.TotalSeconds / Setting.NowPlaying.Duration.TotalSeconds;
+                MoveGauge(gridPlayingGauge.ActualWidth * PlayPerTotal);
 			}
 		}
 
@@ -79,7 +87,14 @@ namespace Simplayer5 {
 			}
 
 			LyricsWindow.GetPlayTime(MusicPlayer.Position);
-		}
+
+            TimeSpan savedPos = MusicPlayer.Position.Subtract(new TimeSpan(0, 0, 1));
+            if (savedPos.Ticks < 0) {
+                savedPos = new TimeSpan(0, 0, 0);
+            }
+            Setting.NowPlayingPosition = savedPos;
+
+        }
 
 		private void MusicPlayer_MediaEnded(object sender, EventArgs e) {
 			MusicPrepare(Setting.NowPlaying.ID, Setting.PlayingLoopSeed * Setting.RandomSeed, false);
