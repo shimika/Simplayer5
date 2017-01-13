@@ -22,14 +22,14 @@ namespace Simplayer5 {
 
 		public static bool InsertTagInDatabase(ref SongData sData, bool skipImage = true) {
 			string ext = System.IO.Path.GetExtension(sData.FilePath).ToLower();
-			if (ext != ".mp3" && ext != ".wma" && ext != ".flac" && ext != ".aac") { return false; }
+			if (ext != ".mp3" && ext != ".wma" && ext != ".flac" && ext != ".aac" && ext != ".m4a") { return false; }
 			if (!File.Exists(sData.FilePath)) { return false; }
 			
 			try {
 				id3 = TagLib.File.Create(sData.FilePath);
 				try {
 					try {
-						sData.Artist = id3.Tag.Performers[0];
+						sData.Artist = String.Join(" / ", id3.Tag.Performers);
 						if (sData.Artist == null) {
 							throw new ArgumentNullException();
 						}

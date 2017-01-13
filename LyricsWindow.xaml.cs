@@ -50,8 +50,8 @@ namespace Simplayer5 {
 
 			DispatcherTimer dtm2 = new DispatcherTimer() { Interval = TimeSpan.FromMilliseconds(500) };
 			dtm2.Tick += delegate(object sender2, EventArgs e2) {
-				this.Top = SystemParameters.PrimaryScreenHeight - 110;
-				this.Left = Setting.LyrRight ? SystemParameters.FullPrimaryScreenWidth - 700 :
+				this.Top = SystemParameters.WorkArea.Bottom - 110;
+				this.Left = Setting.LyrRight ? SystemParameters.WorkArea.Right - 700 :
 											   SystemParameters.WorkArea.Left;
 				this.Topmost = false; this.Topmost = true;
 			};

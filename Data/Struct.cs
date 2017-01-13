@@ -70,13 +70,18 @@ namespace Simplayer5 {
 
 	class StringComparer : IComparer<string> {
 		public int Compare(string x, string y) {
-			int xHeader = DivideString.GetHeadCharIndex(x);
-			int yHeader = DivideString.GetHeadCharIndex(y);
-
-			if (xHeader == yHeader) {
-				return string.Compare(x, y, true);
+			try {
+				int xHeader = DivideString.GetHeadCharIndex(x);
+				int yHeader = DivideString.GetHeadCharIndex(y);
+				
+				if (xHeader == yHeader) {
+					return string.Compare(x, y, true);
+				}
+				return xHeader.CompareTo(yHeader);
+			} catch (Exception ex) {
+				MessageBox.Show(ex.Message + "\n" + x + "\n" + y);
+				return -1;
 			}
-			return xHeader.CompareTo(yHeader);
 		}
 	}
 }

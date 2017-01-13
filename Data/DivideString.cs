@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Simplayer5 {
 	class DivideString {
@@ -30,8 +31,15 @@ namespace Simplayer5 {
 				char[] choChar = new char[] { 'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ' };
 				char[] jungChar = new char[] { 'ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ', 'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', 'ㅘ', 'ㅙ', 'ㅚ', 'ㅛ', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ', 'ㅠ', 'ㅡ', 'ㅢ', 'ㅣ' };
 				char[] jongChar = new char[] { ' ', 'ㄱ', 'ㄲ', 'ㄳ', 'ㄴ', 'ㄵ', 'ㄶ', 'ㄷ', 'ㄹ', 'ㄺ', 'ㄻ', 'ㄼ', 'ㄽ', 'ㄾ', 'ㄿ', 'ㅀ', 'ㅁ', 'ㅂ', 'ㅄ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ' };
-				rtStr += choChar[choCode].ToString() + jungChar[jungCode].ToString() + jongChar[jongCode].ToString();
-				rtStr = rtStr.Replace(" ", "");
+
+				try {
+					string temp = choChar[choCode].ToString() + jungChar[jungCode].ToString() + jongChar[jongCode].ToString();
+					temp = temp.Replace(" ", "");
+					rtStr += temp;
+				}
+				catch {
+					rtStr += origChar;
+				}
 			}
 			return rtStr;
 		}
@@ -43,8 +51,10 @@ namespace Simplayer5 {
 			if (str == null || str.Length == 0) { return 999; }
 
 			string head = KoreanDivide(str.Substring(0, 1).ToUpper());
+			if (head == "") {
+				return 999;
+			}
 			int idx = IndexCaption.IndexOf(head[0]);
-
 			if (idx < 0) { return 999; }
 			return idx;
 		}

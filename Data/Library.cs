@@ -97,9 +97,9 @@ namespace Simplayer5 {
 		private void SortSongs() {
 			try {
 				Setting.IsSorted = true;
-
+				
 				List<int> listPosition = Data.DictSong.OrderBy(x => x.Value.Title, new StringComparer()).Select(y => y.Value.ID).ToList();
-
+				
 				Data.PosSong.Clear();
 				for (int i = 0; i < listPosition.Count; i++) {
 					Data.PosSong.Add(listPosition[i], i);
